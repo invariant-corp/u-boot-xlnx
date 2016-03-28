@@ -1,0 +1,169 @@
+
+/dts-v1/;
+#include "zynq-7000.dtsi"
+
+
+/ {
+   cpus {
+      cpu@0 {
+         operating-points = <666666 1000000 333333 1000000>;
+      };
+   };
+};
+&gpio0 {
+   emio-gpio-width = <64>;
+   gpio-mask-high = <0x0>;
+   gpio-mask-low = <0x5600>;
+};
+&intc {
+   num_cpus = <2>;
+   num_interrupts = <96>;
+};
+&qspi {
+   is-dual = <0>;
+   num-cs = <1>;
+   status = "okay";
+};
+&sdhci0 {
+   clock-frequency = <50000000>;
+   status = "okay";
+};
+&sdhci1 {
+   clock-frequency = <50000000>;
+   status = "okay";
+};
+&uart1 {
+   current-speed = <115200>;
+   device_type = "serial";
+   port-number = <0>;
+   status = "okay";
+};
+&usb0 {
+   status = "okay";
+   dr_mode = "host";
+   usb-phy = <&usb_phy0>;
+};
+
+/ {
+usb_phy0: usb-phy {
+   compatible = "usb-nop-xceiv";
+   #phy-cells = <0>;
+   reg = <0xe0002000 0x1000>;
+   viewport = <0x170>;
+   drv-vbus;
+};
+};
+
+&clkc {
+   fclk-enable = <0xf>;
+   ps-clk-frequency = <33333333>;
+};
+
+
+/ {
+   model = "Zynq PicoZed FireFLY Board";
+   aliases {
+      ethernet0 = &gem0;
+      serial0 = &uart1;
+      spi0 = &qspi;
+   };
+   chosen {
+      bootargs = "console=ttyPS0,115200 earlyprintk";
+   };
+   memory {
+      device_type = "memory";
+      reg = <0x0 0x40000000>;
+   };
+};
+
+&gem0 {
+   local-mac-address = [00 0a 35 00 28 0b];
+};
+
+&qspi {
+   #address-cells = <1>;
+   #size-cells = <0>;
+   flash0: flash@0 {
+      compatible = "micron,n25q128a13";
+      reg = <0x0>;
+      #address-cells = <1>;
+      #size-cells = <1>;
+      spi-max-frequency = <50000000>;
+      partition@0x00000000 {
+         label = "boot";
+         reg = <0x00000000 0x00380000>;
+      };
+      partition@0x00380000 {
+         label = "bootenv";
+         reg = <0x00380000 0x00080000>;
+      };
+      partition@0x00400000 {
+         label = "devicetree";
+         reg = <0x00400000 0x00400000>;
+      };
+      partition@0x00800000 {
+         label = "kernel";
+         reg = <0x00800000 0x00800000>;
+      };
+   };
+};
+
+
+&gem0 {
+   status = "okay";
+   phy-mode = "rgmii-id";
+   phy-handle = <&ethernet_phy>;
+
+   ethernet_phy: ethernet-phy@0 {
+      reg = <0>;
+   };
+};
+
+/ {
+   amba_pl: amba_pl {
+      #address-cells = <1>;
+      #size-cells = <1>;
+      compatible = "simple-bus";
+      ranges ;
+      SYS_Control_0: SYS_Control@43c00000 {
+         compatible = "xlnx,SYS-Control-1.0";
+         reg = <0x43c00000 0x10000>;
+         xlnx,s00-axi-addr-width = <0x7>;
+         xlnx,s00-axi-data-width = <0x20>;
+      };
+      axi_dma_adc_1: dma@40400000 {
+         #dma-cells = <1>;
+         compatible = "xlnx,axi-dma-1.00.a";
+         interrupt-parent = <&intc>;
+         interrupts = <0 29 4>;
+         reg = <0x40400000 0x10000>;
+         dma-channel@40400030 {
+            compatible = "xlnx,axi-dma-s2mm-channel";
+            dma-channels = <0x1>;
+            interrupts = <0 29 4>;
+            xlnx,datawidth = <0x100>;
+            xlnx,device-id = <0x0>;
+         };
+      };
+      axi_dma_adc_2: dma@40410000 {
+         #dma-cells = <1>;
+         compatible = "xlnx,axi-dma-1.00.a";
+         interrupt-parent = <&intc>;
+         interrupts = <0 30 4>;
+         reg = <0x40410000 0x10000>;
+         dma-channel@40410030 {
+            compatible = "xlnx,axi-dma-s2mm-channel";
+            dma-channels = <0x1>;
+            interrupts = <0 30 4>;
+            xlnx,datawidth = <0x200>;
+            xlnx,device-id = <0x1>;
+         };
+      };
+      fireflyadc: fireflyadc@0 {
+         compatible ="xlnx,firefly-dma-1.00.a";
+         dmas = <&axi_dma_adc_1 1 &axi_dma_adc_2 1>;
+         dma-names = "fireflyadc1", "fireflyadc2";
+      };
+   };
+};
+

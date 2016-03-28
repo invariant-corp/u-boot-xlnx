@@ -53,6 +53,9 @@ config TARGET_ZYNQ_CSE
 config TARGET_ZYNQ_CC108
 	bool "Zynq CC108 Board"
 	select ZYNQ_CUSTOM_INIT
+	
+config TARGET_ZYNQ_PICOZED_FIREFLY
+   bool "Zynq PicoZed FireFLY"
 
 endchoice
 
@@ -69,6 +72,7 @@ config SYS_CONFIG_NAME
 	default "zynq_zed" if TARGET_ZYNQ_ZED
 	default "zynq_microzed" if TARGET_ZYNQ_MICROZED
 	default "zynq_picozed" if TARGET_ZYNQ_PICOZED
+	default "zynq_picozed_firefly" if TARGET_ZYNQ_PICOZED_FIREFLY
 	default "zynq_zc70x" if TARGET_ZYNQ_ZC702 || TARGET_ZYNQ_ZC706 \
 			        || TARGET_ZYNQ_ZC70X
 	default "zynq_zc770" if TARGET_ZYNQ_ZC770

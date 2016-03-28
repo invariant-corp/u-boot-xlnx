@@ -1,0 +1,14 @@
+
+
+#ifndef __CONFIG_ZYNQ_PICOZED_FIREFLY_H
+#define __CONFIG_ZYNQ_PICOZED_FIREFLY_H
+
+#include <configs/zynq_picozed.h>
+
+#define CONFIG_ZYNQ_SDHCI0
+#define CONFIG_ZYNQ_QSPI
+#define CONFIG_ZYNQ_I2C0
+#define CONFIG_ZYNQ_EEPROM
+
+
+#endif /* __CONFIG_ZYNQ_PICOZED_FIREFLY_H */
