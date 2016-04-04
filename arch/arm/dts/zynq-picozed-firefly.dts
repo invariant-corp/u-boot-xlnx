@@ -1,6 +1,8 @@
 
+
 /dts-v1/;
-#include "zynq-7000.dtsi"
+/include/ "zynq-7000.dtsi"
+
 
 
 / {
@@ -165,6 +167,7 @@ usb_phy0: usb-phy {
          dmas = <&axi_dma_adc_1 1 &axi_dma_adc_2 1>;
          dma-names = "fireflyadc1", "fireflyadc2";
       };
+      
    };
 };
 
