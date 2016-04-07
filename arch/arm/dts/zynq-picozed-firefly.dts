@@ -79,10 +79,6 @@ usb_phy0: usb-phy {
 
 };
 
-&gem0 {
-   local-mac-address = [00 0a 35 00 28 0b];
-};
-
 &qspi {
    #address-cells = <1>;
    #size-cells = <0>;
