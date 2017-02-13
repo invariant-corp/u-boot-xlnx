@@ -36,7 +36,7 @@
    "boot_size=0xF00000\0"  \
    "fdt_high=0x20000000\0" \
    "initrd_high=0x20000000\0" \
-   "bootargs=console=ttyPS0,115200 earlyprintk rootfstype=ext4 root=/dev/mmcblk1p2 rw rootwait\0" \
+   "bootargs=console=ttyPS0,115200 earlyprintk\0" \
    "qspibootargs=console=ttyPS0,115200 earlyprintk rootfstype=ext4 root=/dev/mmcblk1p2 rw rootwait\0" \
    "sdbootargs=console=ttyPS0,115200 earlyprintk rootfstype=ext4 root=/dev/mmcblk0p2 rw rootwait\0" \
    "bootenv=uEnv.txt\0" \
@@ -60,6 +60,7 @@
       "cp.b 0xE2620000 ${ramdisk_load_address} ${ramdisk_size} && " \
       "bootm ${kernel_load_address} ${ramdisk_load_address} ${devicetree_load_address}\0" \
    "qspiboot_stage2=echo QSPI boot... && " \
+      "setenv bootargs ${qspibootargs} && " \
       "mmcinfo && " \
       "fatload mmc 1 ${kernel_load_address} ${kernel_image} && " \
       "fatload mmc 1 ${devicetree_load_address} ${devicetree_image} && " \
@@ -80,14 +81,11 @@
          "echo Running uenvcmd ...; " \
          "run uenvcmd; " \
       "fi\0" \
-   "sdboot=if mmcinfo; then " \
-         "run uenvboot; " \
-         "echo Copying Linux from SD to RAM... && " \
+   "sdboot=echo SD boot... && " \
+         "setenv bootargs ${sdbootargs} && " \
          "load mmc 0 ${kernel_load_address} ${kernel_image} && " \
          "load mmc 0 ${devicetree_load_address} ${devicetree_image} && " \
-         "load mmc 0 ${ramdisk_load_address} ${ramdisk_image} && " \
-         "bootm ${kernel_load_address} ${ramdisk_load_address} ${devicetree_load_address}; " \
-      "fi\0" \
+         "bootm ${kernel_load_address} - ${devicetree_load_address}\0" \
    "usbboot=if usb start; then " \
          "run uenvboot; " \
          "echo Copying Linux from USB to RAM... && " \
