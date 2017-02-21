@@ -37,7 +37,7 @@
    "fdt_high=0x20000000\0" \
    "initrd_high=0x20000000\0" \
    "bootargs=console=ttyPS0,115200 earlyprintk\0" \
-   "qspibootargs=console=ttyPS0,115200 earlyprintk rootfstype=ext4 root=/dev/mmcblk1p2 ro rootwait\0" \
+   "qspibootargs=fsck.repair=yes console=ttyPS0,115200 earlyprintk rootfstype=ext4 root=/dev/mmcblk1p2 ro rootwait\0" \
    "sdbootargs=console=ttyPS0,115200 earlyprintk rootfstype=ext4 root=/dev/mmcblk0p2 rw rootwait\0" \
    "bootenv=uEnv.txt\0" \
    "loadbootenv=load mmc 0 ${loadbootenv_addr} ${bootenv}\0" \
