@@ -36,8 +36,9 @@
    "boot_size=0xF00000\0"  \
    "fdt_high=0x20000000\0" \
    "initrd_high=0x20000000\0" \
+   "mmcroot=PARTUUID=741b37f3-02\0" \
    "bootargs=console=ttyPS0,115200 earlyprintk\0" \
-   "qspibootargs=fsck.repair=yes console=ttyPS0,115200 earlyprintk rootfstype=ext4 root=/dev/mmcblk1p2 ro rootwait\0" \
+   "qspibootargs=fsck.repair=yes console=ttyPS0,115200 earlyprintk rootfstype=ext4 root=${mmcroot} ro rootwait\0" \
    "sdbootargs=console=ttyPS0,115200 earlyprintk rootfstype=ext4 root=/dev/mmcblk0p2 rw rootwait\0" \
    "bootenv=uEnv.txt\0" \
    "loadbootenv=load mmc 0 ${loadbootenv_addr} ${bootenv}\0" \
@@ -61,7 +62,7 @@
       "bootm ${kernel_load_address} ${ramdisk_load_address} ${devicetree_load_address}\0" \
    "qspiboot_stage2=echo QSPI boot... && " \
       "setenv bootargs ${qspibootargs} && " \
-      "mmcinfo && " \
+      "mmc dev 1 && " \
       "fatload mmc 1 ${kernel_load_address} ${kernel_image} && " \
       "fatload mmc 1 ${devicetree_load_address} ${devicetree_image} && " \
       "bootm ${kernel_load_address} - ${devicetree_load_address}\0" \
