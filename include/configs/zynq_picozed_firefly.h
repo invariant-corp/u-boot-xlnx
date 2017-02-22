@@ -37,9 +37,12 @@
    "fdt_high=0x20000000\0" \
    "initrd_high=0x20000000\0" \
    "mmcroot=PARTUUID=741b37f3-02\0" \
+   "mmcroot_fstype=ext4\0" \
+   "sdroot=/dev/mmcblk0p2\0" \
+   "sdroot_fstype=ext4\0" \
    "bootargs=console=ttyPS0,115200 earlyprintk\0" \
-   "qspibootargs=fsck.repair=yes console=ttyPS0,115200 earlyprintk rootfstype=ext4 root=${mmcroot} ro rootwait\0" \
-   "sdbootargs=console=ttyPS0,115200 earlyprintk rootfstype=ext4 root=/dev/mmcblk0p2 rw rootwait\0" \
+   "qspibootargs=setenv bootargs fsck.repair=yes console=ttyPS0,115200 earlyprintk rootfstype=${mmcroot_fstype} root=${mmcroot} ro rootwait\0" \
+   "sdbootargs=setenv bootargs console=ttyPS0,115200 earlyprintk rootfstype=${sdroot_fstype} root=${sdroot} rw rootwait\0" \
    "bootenv=uEnv.txt\0" \
    "loadbootenv=load mmc 0 ${loadbootenv_addr} ${bootenv}\0" \
    "importbootenv=echo Importing environment from SD ...; " \
@@ -61,7 +64,7 @@
       "cp.b 0xE2620000 ${ramdisk_load_address} ${ramdisk_size} && " \
       "bootm ${kernel_load_address} ${ramdisk_load_address} ${devicetree_load_address}\0" \
    "qspiboot_stage2=echo QSPI boot... && " \
-      "setenv bootargs ${qspibootargs} && " \
+      "run qspibootargs && " \
       "mmc dev 1 && " \
       "fatload mmc 1 ${kernel_load_address} ${kernel_image} && " \
       "fatload mmc 1 ${devicetree_load_address} ${devicetree_image} && " \
@@ -83,7 +86,7 @@
          "run uenvcmd; " \
       "fi\0" \
    "sdboot=echo SD boot... && " \
-         "setenv bootargs ${sdbootargs} && " \
+         "run sdbootargs && " \
          "load mmc 0 ${kernel_load_address} ${kernel_image} && " \
          "load mmc 0 ${devicetree_load_address} ${devicetree_image} && " \
          "bootm ${kernel_load_address} - ${devicetree_load_address}\0" \
