@@ -159,7 +159,11 @@ usb_phy0: usb-phy {
          dmas = <&axi_dma_adc_1 1 &axi_dma_adc_2 1>;
          dma-names = "fireflyadc1", "fireflyadc2";
       };
-      
+      fireflypps: fireflypps@0 {
+         compatible ="xlnx,firefly-pps-1.00.a";
+         interrupt-parent = <&intc>;
+         interrupts = <0 31 1>;
+      };
    };
 };
 
