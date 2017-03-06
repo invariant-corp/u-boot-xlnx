@@ -11,6 +11,8 @@
 #define CONFIG_ENV_OFFSET 0x00D00000
 #define CONFIG_SPI_FLASH
 #define CONFIG_SPI_FLASH_BAR
+#define CONFIG_NETCONSOLE
+#define CONFIG_PREBOOT
 
 #include <configs/zynq_picozed.h>
 
@@ -19,11 +21,15 @@
 /* Default environment */
 #undef CONFIG_EXTRA_ENV_SETTINGS
 #define CONFIG_EXTRA_ENV_SETTINGS   \
+   "stdout=serial\0" \
+   "stdin=serial\0" \
+   "stderr=serial\0" \
    "ethaddr=00:0a:35:00:01:22\0" \
    "ipaddr=192.168.1.200\0" \
    "netmask=255.255.255.0\0" \
    "gatewayip=192.168.1.1\0" \
    "ntpserverip=127.0.0.1\0" \
+   "netconsole=false\0" \
    "kernel_image=uImage\0" \
    "kernel_load_address=0x3000000\0" \
    "ramdisk_image=uramdisk.image.gz\0" \
@@ -52,10 +58,9 @@
    "importbootenv=echo Importing environment from SD ...; " \
       "env import -t ${loadbootenv_addr} $filesize\0" \
    "sd_uEnvtxt_existence_test=test -e mmc 0 /uEnv.txt\0" \
-   "preboot=if test $modeboot = sdboot && env run sd_uEnvtxt_existence_test; " \
-         "then if env run loadbootenv; " \
-            "then env run importbootenv; " \
-         "fi; " \
+   "start_netconsole=setenv bootdelay 5; setenv stdin nc; setenv stdout nc; setenv stderr nc; version\0" \
+   "preboot=if test $netconsole = true; " \
+         "then env run start_netconsole; " \
       "fi; \0" \
    "mmc_loadbit=echo Loading bitstream from SD/MMC/eMMC to RAM.. && " \
       "mmcinfo && " \
