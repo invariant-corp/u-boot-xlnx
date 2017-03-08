@@ -20,7 +20,7 @@
 
 /* Default environment */
 #undef CONFIG_EXTRA_ENV_SETTINGS
-#define CONFIG_EXTRA_ENV_SETTINGS   \
+#define CONFIG_EXTRA_ENV_SETTINGS \
    "stdout=serial\0" \
    "stdin=serial\0" \
    "stderr=serial\0" \
@@ -89,7 +89,7 @@
          "env delete software_update; " \
          "saveenv; " \
          "echo Performing software update...; " \
-         "run tftp_update; \
+         "run tftp_update; " \
       "else run qspiboot_stage2; " \
       "fi\0" \
    "tftp_update=tftpboot ${tftp_load_addr} ${tftp_filename} && source ${tftp_load_addr}\0" \
