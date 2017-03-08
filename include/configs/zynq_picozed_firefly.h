@@ -50,6 +50,7 @@
    "mmcroot_fstype=ext4\0" \
    "sdroot=/dev/mmcblk0p2\0" \
    "sdroot_fstype=ext4\0" \
+   "tftp_load_addr=0x10008000\0" \
    "bootargs=console=ttyPS0,115200 earlyprintk\0" \
    "qspibootargs=setenv bootargs fsck.repair=yes console=ttyPS0,115200 earlyprintk rootfstype=${mmcroot_fstype} root=${mmcroot} ro rootwait\0" \
    "sdbootargs=setenv bootargs console=ttyPS0,115200 earlyprintk rootfstype=${sdroot_fstype} root=${sdroot} rw rootwait\0" \
@@ -88,8 +89,10 @@
          "env delete software_update; " \
          "saveenv; " \
          "echo Performing software update...; " \
+         "run tftp_update; \
       "else run qspiboot_stage2; " \
       "fi\0" \
+   "tftp_update=tftpboot ${tftp_load_addr} ${tftp_filename} && source ${tftp_load_addr}\0" \
    "uenvboot=" \
       "if run loadbootenv; then " \
          "echo Loaded environment from ${bootenv}; " \
