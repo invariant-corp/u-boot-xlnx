@@ -8,7 +8,7 @@
 #define CONFIG_ZYNQ_QSPI
 #define CONFIG_ZYNQ_I2C0
 #define CONFIG_ZYNQ_EEPROM
-#define CONFIG_ENV_OFFSET 0x00D00000
+#define CONFIG_ENV_OFFSET 0x005E0000
 #define CONFIG_SPI_FLASH
 #define CONFIG_SPI_FLASH_BAR
 #define CONFIG_NETCONSOLE
@@ -36,7 +36,7 @@
    "ramdisk_load_address=0x4000000\0"  \
    "devicetree_image=devicetree.dtb\0" \
    "devicetree_load_address=0x2A00000\0"  \
-   "bitstream_image=system.bit.bin\0"  \
+   "bitstream_image=ff_dual_adc_fullio_v2.bit.bin\0"  \
    "boot_image=BOOT.bin\0" \
    "loadbit_addr=0x100000\0"  \
    "loadbootenv_addr=0x2000000\0" \
@@ -62,9 +62,13 @@
    "preboot=if test $netconsole = true; " \
          "then env run start_netconsole; " \
       "fi; \0" \
-   "mmc_loadbit=echo Loading bitstream from SD/MMC/eMMC to RAM.. && " \
-      "mmcinfo && " \
+   "mmc_loadbit_sd=echo Loading bitstream from SD to RAM.. && " \
+      "mmc dev 0 && " \
       "load mmc 0 ${loadbit_addr} ${bitstream_image} && " \
+      "fpga load 0 ${loadbit_addr} ${filesize}\0" \
+   "mmc_loadbit_emmc=echo Loading bitstream from eMMC to RAM.. && " \
+      "mmc dev 1 && " \
+      "load mmc 1 ${loadbit_addr} ${bitstream_image} && " \
       "fpga load 0 ${loadbit_addr} ${filesize}\0" \
    "norboot=echo Copying Linux from NOR flash to RAM... && " \
       "cp.b 0xE2100000 ${kernel_load_address} ${kernel_size} && " \
@@ -75,6 +79,7 @@
    "qspiboot_stage2=echo QSPI boot... && " \
       "run qspibootargs && " \
       "mmc dev 1 && " \
+      "run mmc_loadbit_emmc && " \
       "fatload mmc 1 ${kernel_load_address} ${kernel_image} && " \
       "fatload mmc 1 ${devicetree_load_address} ${devicetree_image} && " \
       "bootm ${kernel_load_address} - ${devicetree_load_address}\0" \
@@ -96,6 +101,7 @@
       "fi\0" \
    "sdboot=echo SD boot... && " \
          "run sdbootargs && " \
+         "run mmc_loadbit_sd && " \
          "load mmc 0 ${kernel_load_address} ${kernel_image} && " \
          "load mmc 0 ${devicetree_load_address} ${devicetree_image} && " \
          "bootm ${kernel_load_address} - ${devicetree_load_address}\0" \

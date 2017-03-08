@@ -90,16 +90,16 @@ usb_phy0: usb-phy {
       spi-max-frequency = <50000000>;
       partition@0x00000000 {
          label = "boot";
-         reg = <0x00000000 0x00D00000>;
+         reg = <0x00000000 0x005E0000>;
       };
-      partition@0x00D00000 {
+      partition@0x005E0000 {
          label = "bootenv";
-         reg = <0x00D00000 0x00100000>;
+         reg = <0x005E0000 0x00020000>;
       };
-      partition@0x00E00000 {
-         label = "spare";
-         reg = <0x00E00000 0x00200000>;
-      };
+      partition@0x00600000 {
+         label = "config";
+         reg = <0x00600000 0x00A00000>;
+      };      
    };
 };
 
