@@ -24,12 +24,12 @@
    "stdout=serial\0" \
    "stdin=serial\0" \
    "stderr=serial\0" \
-   "ethaddr=00:0a:35:00:01:22\0" \
+   "ethaddr=00:0A:35:00:01:22\0" \
    "ipaddr=192.168.1.200\0" \
    "netmask=255.255.255.0\0" \
    "gatewayip=192.168.1.1\0" \
    "ntpserverip=127.0.0.1\0" \
-   "netconsole=false\0" \
+   "netconsole=true\0" \
    "kernel_image=uImage\0" \
    "kernel_load_address=0x3000000\0" \
    "ramdisk_image=uramdisk.image.gz\0" \
