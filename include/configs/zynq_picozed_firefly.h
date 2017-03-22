@@ -21,6 +21,7 @@
 /* Default environment */
 #undef CONFIG_EXTRA_ENV_SETTINGS
 #define CONFIG_EXTRA_ENV_SETTINGS \
+   "autoload=no\0" \
    "stdout=serial\0" \
    "stdin=serial\0" \
    "stderr=serial\0" \
@@ -29,7 +30,7 @@
    "netmask=255.255.255.0\0" \
    "gatewayip=192.168.1.1\0" \
    "ntpserverip=127.0.0.1\0" \
-   "netconsole=true\0" \
+   "netconsole=yes\0" \
    "kernel_image=uImage\0" \
    "kernel_load_address=0x3000000\0" \
    "ramdisk_image=uramdisk.image.gz\0" \
@@ -60,7 +61,7 @@
       "env import -t ${loadbootenv_addr} $filesize\0" \
    "sd_uEnvtxt_existence_test=test -e mmc 0 /uEnv.txt\0" \
    "start_netconsole=setenv bootdelay 5; setenv stdin nc; setenv stdout nc; setenv stderr nc; version\0" \
-   "preboot=if test $netconsole = true; " \
+   "preboot=if test $netconsole = yes; " \
          "then env run start_netconsole; " \
       "fi; \0" \
    "mmc_loadbit_sd=echo Loading bitstream from SD to RAM.. && " \
