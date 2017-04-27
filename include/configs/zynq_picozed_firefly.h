@@ -20,6 +20,11 @@
 
 #define CONFIG_CMD_UNZIP 1
 
+#undef CONFIG_IPADDR
+#undef CONFIG_SERVERIP
+#define CONFIG_IPADDR   192.168.1.200
+#define CONFIG_SERVERIP 192.168.1.100
+
 /* Default environment */
 #undef CONFIG_EXTRA_ENV_SETTINGS
 #define CONFIG_EXTRA_ENV_SETTINGS \
@@ -28,7 +33,6 @@
    "stdin=serial\0" \
    "stderr=serial\0" \
    "ethaddr=00:0A:35:00:01:22\0" \
-   "ipaddr=192.168.1.200\0" \
    "netmask=255.255.255.0\0" \
    "gatewayip=192.168.1.1\0" \
    "ntpserverip=127.0.0.1\0" \
