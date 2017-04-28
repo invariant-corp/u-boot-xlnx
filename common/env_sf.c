@@ -173,6 +173,11 @@ void env_relocate_spec(void)
 		if (crc32(0, tmp_env2->data, ENV_SIZE) == tmp_env2->crc)
 			crc2_ok = 1;
 	}
+	
+	if ( !crc1_ok )
+      printf( "*** ENVIRONMENT 1 CORRUPT!\n" );
+   if ( !crc2_ok )
+      printf( "*** ENVIRONMENT 2 CORRUPT!\n" );
 
 	if (!crc1_ok && !crc2_ok) {
 		set_default_env("!bad CRC");
