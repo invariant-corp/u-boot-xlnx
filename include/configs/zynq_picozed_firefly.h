@@ -36,7 +36,7 @@
    "netmask=255.255.255.0\0" \
    "gatewayip=192.168.1.1\0" \
    "ntpserverip=127.0.0.1\0" \
-   "netconsole=yes\0" \
+   "netconsole=no\0" \
    "kernel_image=uImage\0" \
    "kernel_load_address=0x3000000\0" \
    "ramdisk_image=uramdisk.image.gz\0" \
@@ -111,7 +111,6 @@
       "fi\0" \
    "sdboot=echo SD boot... && " \
          "run sdbootargs && " \
-         "run mmc_loadbit_sd && " \
          "load mmc 0 ${kernel_load_address} ${kernel_image} && " \
          "load mmc 0 ${devicetree_load_address} ${devicetree_image} && " \
          "bootm ${kernel_load_address} - ${devicetree_load_address}\0" \
