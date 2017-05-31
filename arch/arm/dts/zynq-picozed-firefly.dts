@@ -98,8 +98,16 @@ usb_phy0: usb-phy {
       };
       partition@0x00600000 {
          label = "config";
-         reg = <0x00600000 0x00A00000>;
-      };      
+         reg = <0x00600000 0x00400000>;
+      };
+      partition@0x00A00000 {
+         label = "backup";
+         reg = <0x00A00000 0x00400000>;
+      };
+      partition@0x00E00000 {
+         label = "spare";
+         reg = <0x00E00000 0x00200000>;
+      };
    };
 };
 
