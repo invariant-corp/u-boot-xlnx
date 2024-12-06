@@ -232,7 +232,7 @@
         no-1-8-v;
         disable-wp;
 	xlnx,has-cd = <0x1>;
-        bus-width = <4>;
+        bus-width = <1>;
 	max-frequency = <20000000>;  
 	cap-sd-highspeed;
 };
