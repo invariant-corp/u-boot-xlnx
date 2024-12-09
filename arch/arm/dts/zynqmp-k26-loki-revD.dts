@@ -233,7 +233,7 @@
         disable-wp;
 	xlnx,has-cd = <0x1>;
         bus-width = <1>;
-	max-frequency = <20000000>;  
+	max-frequency = <25000000>;  
 	cap-sd-highspeed;
 };
 
